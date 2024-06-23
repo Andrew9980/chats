@@ -17,8 +17,9 @@ public class UserSendMsgReqVO {
 
     /**
      * 消息类型
+     * {@link com.andrew.chats.enums.MessageTypeEnum}
      */
-    private Byte type;
+    private Integer type;
 
     /**
      * 消息内容

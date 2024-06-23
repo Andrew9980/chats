@@ -29,6 +29,10 @@ import java.util.Objects;
 @Service
 public class UserInfoService extends ServiceImpl<UserInfoMapper, UserInfo> implements IService<UserInfo> {
 
+    public UserInfoVO getByUserId(String userId) {
+        UserInfo userInfo = getOne(Wrappers.<UserInfo>lambdaQuery().eq(UserInfo::getUserId, userId));
+        return ObjUtils.copy(userInfo, UserInfoVO.class);
+    }
 
     public Boolean register(UserInfoReqVO vo) {
         String salt = SecretUtil.getSalt();

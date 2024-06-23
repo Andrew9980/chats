@@ -1,6 +1,10 @@
 package com.andrew.chats.netty;
 
 import com.andrew.chats.config.ServiceException;
+import com.andrew.chats.dao.model.UserContact;
+import com.andrew.chats.dao.service.UserContactService;
+import com.andrew.chats.enums.ExceptionEnum;
+import com.andrew.chats.enums.UserContactStatusEnum;
 import com.andrew.chats.utils.util.JSONUtil;
 import com.andrew.chats.utils.util.SecretUtil;
 import com.andrew.chats.vo.UserSendMsgReqVO;
@@ -18,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Objects;
 
 @Slf4j
 @Component
@@ -25,7 +30,7 @@ import java.util.Map;
 public class MessageHandle extends SimpleChannelInboundHandler<TextWebSocketFrame> {
 
     @Autowired
-    private NettyContext nettyContext;
+    private UserContactService userContactService;
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -45,7 +50,7 @@ public class MessageHandle extends SimpleChannelInboundHandler<TextWebSocketFram
 
             try {
                 String userId = SecretUtil.verify(token);
-                nettyContext.addUser2Channel(userId, ctx.channel());
+                NettyContext.addUser2Channel(userId, ctx.channel());
             } catch (ServiceException e) {
                 // token验证失败返回
                 ctx.writeAndFlush(new TextWebSocketFrame(JSONUtil.toJSONString(Map.of("code", e.getCode(), "message", e.getDesc()))));
@@ -65,7 +70,14 @@ public class MessageHandle extends SimpleChannelInboundHandler<TextWebSocketFram
         }
         UserSendMsgReqVO userSendMsgReqVO = JSONUtil.parseJSON(text.text(), UserSendMsgReqVO.class);
         if (userSendMsgReqVO != null) {
-            RespResult respResult = nettyContext.sendMsg(userSendMsgReqVO);
+            RespResult respResult;
+            UserContact userContact = userContactService.getUserContact(userSendMsgReqVO.getSenderId(), userSendMsgReqVO.getReceiveId());
+            if (Objects.isNull(userContact) || !Objects.equals(userContact.getStatus(), UserContactStatusEnum.VALID.getCode())) {
+                respResult = RespResult.fail(ExceptionEnum.USER_CONTACT_ERROR);
+            } else {
+                NettyContext.sendMsg(userSendMsgReqVO);
+                respResult = RespResult.success();
+            }
             // 发送成功
             ctx.channel().writeAndFlush(new TextWebSocketFrame(JSONUtil.toJSONString(respResult)));
         }

@@ -2,6 +2,8 @@ package com.andrew.chats.dao.model;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -13,6 +15,7 @@ import java.time.LocalDateTime;
  * @author andrew
  * @since 2024-06-23
  */
+@TableName("message")
 public class Message implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,7 +41,7 @@ public class Message implements Serializable {
     /**
      * 消息类型，1：文字 2：文件
      */
-    private Byte type;
+    private Integer type;
 
     /**
      * 消息内容
@@ -81,11 +84,11 @@ public class Message implements Serializable {
         this.status = status;
     }
 
-    public Byte getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(Byte type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 

@@ -1,7 +1,7 @@
 package com.andrew.chats.controller;
 
+import com.andrew.chats.dao.service.UserInfoService;
 import com.andrew.chats.enums.ExceptionEnum;
-import com.andrew.chats.service.UserManager;
 import com.andrew.chats.utils.util.SecretUtil;
 import com.andrew.chats.vo.UserInfoReqVO;
 import com.andrew.chats.vo.UserInfoVO;
@@ -23,13 +23,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserInfoController {
 
     @Autowired
-    private UserManager userManager;
-
-    @GetMapping("/{id}")
-    public RespResult<UserInfoVO> id(@PathVariable("id") Long id) {
-        UserInfoVO user = userManager.getById(id);
-        return RespResult.success(user);
-    }
+    private UserInfoService userInfoService;
 
     @PostMapping("/register")
     public RespResult<Boolean> register(@RequestBody UserInfoReqVO vo) {
@@ -39,7 +33,7 @@ public class UserInfoController {
         if (StringUtils.isBlank(vo.getPassword())) {
             return RespResult.fail(ExceptionEnum.PASSWORD_NOT_EMPTY);
         }
-        return RespResult.success(userManager.register(vo));
+        return RespResult.success(userInfoService.register(vo));
     }
 
     @PostMapping("/login")
@@ -50,7 +44,7 @@ public class UserInfoController {
         if (StringUtils.isBlank(vo.getPassword())) {
             return RespResult.fail(ExceptionEnum.PASSWORD_NOT_EMPTY);
         }
-        return RespResult.success(userManager.login(vo));
+        return RespResult.success(userInfoService.login(vo));
     }
 
     @GetMapping("/jwtVerify")

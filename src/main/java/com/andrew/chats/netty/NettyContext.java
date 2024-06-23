@@ -7,6 +7,7 @@ import com.andrew.chats.dao.service.UserContactService;
 import com.andrew.chats.dao.service.UserInfoService;
 import com.andrew.chats.enums.ExceptionEnum;
 import com.andrew.chats.enums.UserContactStatusEnum;
+import com.andrew.chats.utils.util.JSONUtil;
 import com.andrew.chats.vo.UserSendMsgReqVO;
 import com.andrew.chats.vo.base.RespResult;
 import io.netty.channel.Channel;
@@ -20,25 +21,16 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
-@Component
 public class NettyContext {
 
     private static final ConcurrentHashMap<String, Channel> USER_CHANNEL_MAP = new ConcurrentHashMap<>();
-
-    private UserInfoService userInfoService;
-
-    @Autowired
-    private UserContactService userContactService;
-
-    @Autowired
-    private MessageService messageService;
 
     /**
      * 将userId放入channel中
      * @param userId
      * @param channel
      */
-    public void addUser2Channel(String userId, Channel channel) {
+    public static void addUser2Channel(String userId, Channel channel) {
         String channelId = channel.id().asShortText();
         AttributeKey<String> attributeKey;
         if (!AttributeKey.exists(channelId)) { // 不存在就创建
@@ -50,26 +42,23 @@ public class NettyContext {
         addUserChannelMap(userId, channel);
     }
 
-    public void addUserChannelMap(String userId, Channel channel) {
+    public static void addUserChannelMap(String userId, Channel channel) {
         USER_CHANNEL_MAP.put(userId, channel);
     }
 
-    public Channel getUserChannel(String userId) {
+    public static Channel getUserChannel(String userId) {
         return USER_CHANNEL_MAP.get(userId);
     }
 
-    public RespResult sendMsg(UserSendMsgReqVO userSendMsgReqVO) {
-        UserContact userContact = userContactService.getUserContact(userSendMsgReqVO.getSenderId(), userSendMsgReqVO.getReceiveId());
-        if (Objects.isNull(userContact) || !Objects.equals(userContact.getStatus(), UserContactStatusEnum.VALID.getCode())) {
-            return RespResult.fail(ExceptionEnum.USER_CONTACT_ERROR);
-        }
-
+    /**
+     * 推送消息给用户
+     * @return
+     */
+    public static void sendMsg(UserSendMsgReqVO userSendMsgReqVO) {
         Channel channel = getUserChannel(userSendMsgReqVO.getReceiveId());
-        if (channel != null) {
-            channel.writeAndFlush(new TextWebSocketFrame(userSendMsgReqVO.getContent()));
+        if (channel == null) {
+            return;
         }
-        // 消息保存
-        messageService.save(userSendMsgReqVO);
-        return RespResult.success(null);
+        channel.writeAndFlush(new TextWebSocketFrame(JSONUtil.toJSONString(userSendMsgReqVO)));
     }
 }

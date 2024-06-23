@@ -1,16 +1,18 @@
 package com.andrew.chats.enums;
 
-public enum UserContactStatusEnum {
+public enum MessageTypeEnum {
 
-    APPLY(0, "申请中"),
-    VALID(1, "正常"),
-    BLACK(2, "黑名单");
+    FRIEND_APPLY(0, "好友申请"),
+    GROUP_APPLY(1, "群申请"),
+    TEXT(2, "文字"),
+    IMAGE(3, "图片"),
+    FILE(4, "文件");
 
     private Integer code;
 
     private String desc;
 
-    UserContactStatusEnum(Integer code, String desc) {
+    MessageTypeEnum(Integer code, String desc) {
         this.code = code;
         this.desc = desc;
     }

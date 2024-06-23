@@ -40,7 +40,7 @@ public class UserContact implements Serializable {
     /**
      * 联系状态，1：正常 2：拉黑
      */
-    private Byte status;
+    private Integer status;
 
     /**
      * 消息未读数
@@ -88,11 +88,11 @@ public class UserContact implements Serializable {
         this.type = type;
     }
 
-    public Byte getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Byte status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

@@ -19,6 +19,9 @@ public class RespResult<T> {
     public static <T> RespResult<T> success(T data) {
         return RespResult.<T>builder().data(data).code(SUCCESS_CODE).build();
     }
+    public static RespResult<Boolean> success() {
+        return RespResult.<Boolean>builder().data(Boolean.TRUE).code(SUCCESS_CODE).build();
+    }
 
     public static <T> RespResult<T> fail(String code, String message) {
         return RespResult.<T>builder().code(code).message(message).build();
