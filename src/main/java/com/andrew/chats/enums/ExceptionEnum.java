@@ -8,8 +8,10 @@ public enum ExceptionEnum {
     ACCOUNT_OR_PASSWORD_ERROR("0004", "账号或密码错误"),
     USER_STATUS_ERROR("0005", "用户状态异常"),
     TOKEN_ERROR("0006", "登录状态失效，请重新登陆"),
-    USER_CONTACT_ERROR("0007", "对方还不是您的好友，请申请好友后发送"),
-    USER_CONTACT_EXIST("0008", "对方已经是您的好友，请勿重复申请");
+    USER_CONTACT_ERROR("0007", "对方还不是您的好友，请加好友后发送"),
+    USER_CONTACT_EXIST("0008", "您已提交申请，请勿重复申请"),
+    GROUP_NOT_EXIST("0009", "群不存在"),
+    GROUP_CONTACT_ERROR("0010", "您已不在群聊，请加群后发送");
 
     private String code;
 

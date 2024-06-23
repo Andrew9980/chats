@@ -11,4 +11,6 @@ public class UserInfoVO implements Serializable {
 
     private String nickName;
 
+    private Integer status;
+
 }

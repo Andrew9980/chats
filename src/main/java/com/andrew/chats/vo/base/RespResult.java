@@ -23,11 +23,11 @@ public class RespResult<T> {
         return RespResult.<Boolean>builder().data(Boolean.TRUE).code(SUCCESS_CODE).build();
     }
 
-    public static <T> RespResult<T> fail(String code, String message) {
-        return RespResult.<T>builder().code(code).message(message).build();
+    public static RespResult<Boolean> fail(String code, String message) {
+        return RespResult.<Boolean>builder().data(Boolean.FALSE).code(code).message(message).build();
     }
 
-    public static <T> RespResult<T> fail(ExceptionEnum ee) {
-        return RespResult.<T>builder().code(ee.getCode()).message(ee.getDesc()).build();
+    public static RespResult<Boolean> fail(ExceptionEnum ee) {
+        return RespResult.<Boolean>builder().data(Boolean.FALSE).code(ee.getCode()).message(ee.getDesc()).build();
     }
 }

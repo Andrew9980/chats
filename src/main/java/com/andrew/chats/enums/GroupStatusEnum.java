@@ -1,17 +1,15 @@
 package com.andrew.chats.enums;
 
-public enum UserContactStatusEnum {
+public enum GroupStatusEnum {
 
-    APPLY(0, "申请中"),
     VALID(1, "正常"),
-    BLACK(2, "黑名单"),
-    QUIT(3, "退出群聊");
+    BANED(2, "封禁");
 
     private Integer code;
 
     private String desc;
 
-    UserContactStatusEnum(Integer code, String desc) {
+    GroupStatusEnum(Integer code, String desc) {
         this.code = code;
         this.desc = desc;
     }

@@ -10,9 +10,6 @@ spring:
     redis:
       host: 127.0.0.1
       password: 1234
-  devtools:
-    restart:
-      enabled: true
-      additional-paths: src/main/java
 
-wsPort: 8060
+# websocket 服务端口
+ws-port: 8060

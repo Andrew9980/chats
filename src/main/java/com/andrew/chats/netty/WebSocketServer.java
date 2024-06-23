@@ -24,18 +24,18 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class NettyServer {
+public class WebSocketServer {
 
     private ServerBootstrap serverBootstrap = null;
 
 
-    @Value("${wsPort}")
+    @Value("${ws-port}")
     private Integer wsPort;
 
     @Autowired
-    private MessageHandle messageHandle;
+    private TextWebSocketMessageHandle textWebSocketMessageHandle;
 
-    public NettyServer() {
+    public WebSocketServer() {
         EventLoopGroup work = new NioEventLoopGroup();
         EventLoopGroup boss = new NioEventLoopGroup();
         serverBootstrap = new ServerBootstrap()
@@ -51,7 +51,7 @@ public class NettyServer {
                                 .addLast(new ChunkedWriteHandler()) // 对大数据流写入的支持
                                 .addLast(new IdleStateHandler(6, 0, 0, TimeUnit.SECONDS))
                                 .addLast(new WebSocketServerProtocolHandler("/ws", null, true, 64*1024, true, true, 1000L))
-                                .addLast(messageHandle);
+                                .addLast(textWebSocketMessageHandle);
 
                     }
                 });

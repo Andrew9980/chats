@@ -1,10 +1,9 @@
 package com.andrew.chats.controller;
 
-import com.andrew.chats.dao.service.UserInfoService;
+import com.andrew.chats.service.UserInfoService;
 import com.andrew.chats.enums.ExceptionEnum;
 import com.andrew.chats.utils.util.SecretUtil;
 import com.andrew.chats.vo.UserInfoReqVO;
-import com.andrew.chats.vo.UserInfoVO;
 import com.andrew.chats.vo.base.RespResult;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

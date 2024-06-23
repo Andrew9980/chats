@@ -229,6 +229,9 @@ public class FastAutoGenerator {
                     if (typeCode == Types.BIT) {
                         return DbColumnType.INTEGER;
                     }
+                    if (typeCode == Types.TINYINT) {
+                        return DbColumnType.INTEGER;
+                    }
                     if (typeCode == Types.SMALLINT) {
                         // 自定义类型转换
                         return DbColumnType.INTEGER;
@@ -246,13 +249,12 @@ public class FastAutoGenerator {
                     builder.parent("com.andrew.chats")
                             .entity("dao.model")
                             .mapper("dao.mapper")
-                            .service("dao.service")
-                            .serviceImpl("dao.service.impl")
+                            .serviceImpl("dao.service")
                             .pathInfo(Collections.singletonMap(OutputFile.xml, "D:\\projects\\mine\\chats\\src\\main\\resources\\mapper"));
                 })
                 // 策略配置 用于addInclude：设置生成的表名称，如果多张表用逗号","分割开 addTablePrefix：设置过滤表前缀，如果表有固定的前缀，可以在这里设置
                 .strategyConfig((scanner, builder) -> {
-                    builder.addInclude("user_contact", "message")
+                    builder.addInclude("chat_group", "group_member")
                             .enableCapitalMode();
                 })
                 /*

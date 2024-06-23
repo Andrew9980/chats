@@ -1,17 +1,16 @@
 package com.andrew.chats.enums;
 
-public enum UserContactStatusEnum {
 
-    APPLY(0, "申请中"),
-    VALID(1, "正常"),
-    BLACK(2, "黑名单"),
-    QUIT(3, "退出群聊");
+public enum MemberRoleEnum {
+
+    OWNER(1, "群主"),
+    MANAGER(2, "管理员");
 
     private Integer code;
 
     private String desc;
 
-    UserContactStatusEnum(Integer code, String desc) {
+    MemberRoleEnum(Integer code, String desc) {
         this.code = code;
         this.desc = desc;
     }

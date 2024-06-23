@@ -1,27 +1,16 @@
 package com.andrew.chats.netty;
 
-import com.andrew.chats.dao.model.Message;
-import com.andrew.chats.dao.model.UserContact;
-import com.andrew.chats.dao.service.MessageService;
-import com.andrew.chats.dao.service.UserContactService;
-import com.andrew.chats.dao.service.UserInfoService;
-import com.andrew.chats.enums.ExceptionEnum;
-import com.andrew.chats.enums.UserContactStatusEnum;
 import com.andrew.chats.utils.util.JSONUtil;
 import com.andrew.chats.vo.UserSendMsgReqVO;
-import com.andrew.chats.vo.base.RespResult;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.util.AttributeKey;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
-public class NettyContext {
+public class WebSocketContext {
 
     private static final ConcurrentHashMap<String, Channel> USER_CHANNEL_MAP = new ConcurrentHashMap<>();
 
@@ -52,7 +41,6 @@ public class NettyContext {
 
     /**
      * 推送消息给用户
-     * @return
      */
     public static void sendMsg(UserSendMsgReqVO userSendMsgReqVO) {
         Channel channel = getUserChannel(userSendMsgReqVO.getReceiveId());

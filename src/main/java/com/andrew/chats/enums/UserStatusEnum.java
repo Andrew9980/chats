@@ -2,7 +2,8 @@ package com.andrew.chats.enums;
 
 public enum UserStatusEnum {
 
-    VALID(1, "正常");
+    VALID(1, "正常"),
+    BANED(2, "封禁");
 
     private Integer code;
 

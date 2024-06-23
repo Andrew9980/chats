@@ -8,14 +8,14 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 用户联系
+ * 群成员
  * </p>
  *
  * @author andrew
  * @since 2024-06-23
  */
-@TableName("user_contact")
-public class UserContact implements Serializable {
+@TableName("group_member")
+public class GroupMember implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -23,39 +23,34 @@ public class UserContact implements Serializable {
     private Long id;
 
     /**
-     * user_info表user_id
+     * 群id
+     */
+    private String groupId;
+
+    /**
+     * 用户id
      */
     private String userId;
 
     /**
-     * 联系人id type=1 user_info表user_id type=2 group表group_id
+     * 群成员权限，1：群主 2：管理员 3：群员
      */
-    private String contactId;
+    private Integer userRole;
 
     /**
-     * 备注
+     * 加入时间
      */
-    private String notes;
+    private LocalDateTime joinTime;
 
     /**
-     * 联系类型，1：联系用户 2：联系群
-     */
-    private Integer type;
-
-    /**
-     * 联系状态，1：正常 2：拉黑
+     * 状态，1：正常 2：禁言 3：被踢
      */
     private Integer status;
 
     /**
-     * 消息未读数
+     * 禁言生效时间
      */
-    private Integer unreadCount;
-
-    /**
-     * 最后联系时间
-     */
-    private LocalDateTime lastContractTime;
+    private LocalDateTime mutedTime;
 
     private LocalDateTime createTime;
 
@@ -69,6 +64,14 @@ public class UserContact implements Serializable {
         this.id = id;
     }
 
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
+
     public String getUserId() {
         return userId;
     }
@@ -77,52 +80,36 @@ public class UserContact implements Serializable {
         this.userId = userId;
     }
 
-    public String getContactId() {
-        return contactId;
+    public Integer getUserRole() {
+        return userRole;
     }
 
-    public void setContactId(String contactId) {
-        this.contactId = contactId;
+    public void setUserRole(Integer userRole) {
+        this.userRole = userRole;
     }
 
-    public Integer getType() {
-        return type;
+    public LocalDateTime getJoinTime() {
+        return joinTime;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
+    public void setJoinTime(LocalDateTime joinTime) {
+        this.joinTime = joinTime;
     }
 
     public Integer getStatus() {
         return status;
     }
 
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
-    }
-
     public void setStatus(Integer status) {
         this.status = status;
     }
 
-    public Integer getUnreadCount() {
-        return unreadCount;
+    public LocalDateTime getMutedTime() {
+        return mutedTime;
     }
 
-    public void setUnreadCount(Integer unreadCount) {
-        this.unreadCount = unreadCount;
-    }
-
-    public LocalDateTime getLastContractTime() {
-        return lastContractTime;
-    }
-
-    public void setLastContractTime(LocalDateTime lastContractTime) {
-        this.lastContractTime = lastContractTime;
+    public void setMutedTime(LocalDateTime mutedTime) {
+        this.mutedTime = mutedTime;
     }
 
     public LocalDateTime getCreateTime() {
@@ -143,14 +130,14 @@ public class UserContact implements Serializable {
 
     @Override
     public String toString() {
-        return "UserContact{" +
+        return "GroupMember{" +
             "id = " + id +
+            ", groupId = " + groupId +
             ", userId = " + userId +
-            ", contactId = " + contactId +
-            ", type = " + type +
+            ", userRole = " + userRole +
+            ", joinTime = " + joinTime +
             ", status = " + status +
-            ", unreadCount = " + unreadCount +
-            ", lastContractTime = " + lastContractTime +
+            ", mutedTime = " + mutedTime +
             ", createTime = " + createTime +
             ", updateTime = " + updateTime +
         "}";

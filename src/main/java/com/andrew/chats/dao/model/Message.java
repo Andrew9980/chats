@@ -39,7 +39,7 @@ public class Message implements Serializable {
     private Integer status;
 
     /**
-     * 消息类型，1：文字 2：文件
+     * 消息类型，0：好友申请，1：群申请 2：文字 3：图片 4：文件
      */
     private Integer type;
 

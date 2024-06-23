@@ -1,4 +1,4 @@
-package com.andrew.chats.dao.service;
+package com.andrew.chats.service;
 
 import com.andrew.chats.config.ServiceException;
 import com.andrew.chats.dao.model.UserInfo;
@@ -27,7 +27,7 @@ import java.util.Objects;
  * @since 2024-06-16
  */
 @Service
-public class UserInfoService extends ServiceImpl<UserInfoMapper, UserInfo> implements IService<UserInfo> {
+public class UserInfoService extends ServiceImpl<UserInfoMapper, UserInfo> {
 
     public UserInfoVO getByUserId(String userId) {
         UserInfo userInfo = getOne(Wrappers.<UserInfo>lambdaQuery().eq(UserInfo::getUserId, userId));
