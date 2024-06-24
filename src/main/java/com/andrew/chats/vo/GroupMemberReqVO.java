@@ -9,6 +9,10 @@ public class GroupMemberReqVO {
 
     private String groupId;
 
+    private String groupName;
+
+    private String groupInfo;
+
     private List<Integer> userRoleList;
 
 }

@@ -7,6 +7,7 @@ import com.andrew.chats.enums.ExceptionEnum;
 import com.andrew.chats.enums.UserStatusEnum;
 import com.andrew.chats.utils.util.ObjUtils;
 import com.andrew.chats.utils.util.SecretUtil;
+import com.andrew.chats.utils.util.ServiceUtil;
 import com.andrew.chats.vo.UserInfoReqVO;
 import com.andrew.chats.vo.UserInfoVO;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -37,7 +38,7 @@ public class UserInfoService extends ServiceImpl<UserInfoMapper, UserInfo> {
     public Boolean register(UserInfoReqVO vo) {
         String salt = SecretUtil.getSalt();
         UserInfo userInfo = new UserInfo();
-        String userId = RandomStringUtils.random(11, false, true);
+        String userId = ServiceUtil.getRandomId();
         userInfo.setUserId(userId);
         userInfo.setEmail(vo.getEmail());
         userInfo.setNickName(vo.getEmail());

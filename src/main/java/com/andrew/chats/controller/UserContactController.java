@@ -21,6 +21,11 @@ public class UserContactController {
     @Autowired
     private UserContactService userContactService;
 
+    /**
+     * 好友申请
+     * @param userSendMsgReqVO
+     * @return
+     */
     @PostMapping("/apply")
     public RespResult<Boolean> apply(@RequestBody UserSendMsgReqVO userSendMsgReqVO) {
         return RespResult.success(userContactService.apply(userSendMsgReqVO));

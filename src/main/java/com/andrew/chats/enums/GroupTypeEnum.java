@@ -1,17 +1,16 @@
 package com.andrew.chats.enums;
 
+public enum GroupTypeEnum {
 
-public enum MemberRoleEnum {
-
-    OWNER(1, "群主"),
-    MANAGER(2, "管理员"),
-    MEMBER(3, "普通成员");
+    NORMAL(1, "普通群"),
+    FREE(2, "自由群"),
+    FORBID(3, "禁言群");
 
     private Integer code;
 
     private String desc;
 
-    MemberRoleEnum(Integer code, String desc) {
+    GroupTypeEnum(Integer code, String desc) {
         this.code = code;
         this.desc = desc;
     }

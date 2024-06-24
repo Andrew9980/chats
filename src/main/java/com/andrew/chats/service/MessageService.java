@@ -1,16 +1,16 @@
 package com.andrew.chats.service;
 
-import com.andrew.chats.dao.model.Message;
 import com.andrew.chats.dao.mapper.MessageMapper;
+import com.andrew.chats.dao.model.Message;
 import com.andrew.chats.enums.MessageStatusEnum;
 import com.andrew.chats.utils.util.ObjUtils;
 import com.andrew.chats.vo.MessageReqVO;
 import com.andrew.chats.vo.MessageResVO;
 import com.andrew.chats.vo.UserSendMsgReqVO;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.bloomfilter.BitMapProducer;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
