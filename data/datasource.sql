@@ -31,6 +31,7 @@ create table user_contact
     id bigint auto_increment,
     user_id varchar(12) not null comment 'user_info表user_id',
     contact_id varchar(12) not null comment '联系人id type=1 user_info表user_id type=2 group表group_id',
+    session_id bigint null comment '用户联系人消息表id',
     notes varchar(50) comment '联系人/群备注',
     type tinyint(1) not null comment '联系类型，1：联系用户 2：联系群',
     status tinyint not null default 0 comment '联系状态，0：申请中，1：正常 2：拉黑 3：退出群聊',
@@ -45,17 +46,28 @@ create table user_contact
 create table message
 (
     id bigint auto_increment,
-    sender_id varchar(12) not null comment '发送者',
-    receive_id varchar(12) not null comment '接收者',
-    status tinyint(1) not null comment '1：未读 2：已读',
     type tinyint not null comment '消息类型，0：好友申请，1：群申请 2：文字 3：图片 4：文件',
     content text comment '消息内容',
+    create_time datetime,
+    update_time datetime,
+    primary key (id)
+) comment '消息表' CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+create table user_session_message
+(
+    id bigint auto_increment,
+    sender_id varchar(12) not null comment '发送者',
+    receive_id varchar(12) not null comment '接收者',
+    message_id bigint not null comment '消息id',
+    status tinyint(1) not null comment '0：未读 1：已读',
     create_time datetime,
     update_time datetime,
     primary key (id),
     index s_idx(sender_id),
     index r_idx(receive_id)
-) comment '消息表' CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+) comment '用户联系人消息表' CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+
 
 create table chat_group
 (

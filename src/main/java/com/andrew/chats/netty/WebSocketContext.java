@@ -1,7 +1,7 @@
 package com.andrew.chats.netty;
 
-import com.andrew.chats.utils.util.JSONUtil;
-import com.andrew.chats.vo.UserSendMsgReqVO;
+import com.andrew.chats.common.utils.JSONUtil;
+import com.andrew.chats.common.params.UserSendMsgParam;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.util.AttributeKey;
@@ -42,11 +42,11 @@ public class WebSocketContext {
     /**
      * 推送消息给用户
      */
-    public static void sendMsg(UserSendMsgReqVO userSendMsgReqVO) {
-        Channel channel = getUserChannel(userSendMsgReqVO.getReceiveId());
+    public static void sendMsg(UserSendMsgParam userSendMsgParam) {
+        Channel channel = getUserChannel(userSendMsgParam.getReceiveId());
         if (channel == null) {
             return;
         }
-        channel.writeAndFlush(new TextWebSocketFrame(JSONUtil.toJSONString(userSendMsgReqVO)));
+        channel.writeAndFlush(new TextWebSocketFrame(JSONUtil.toJSONString(userSendMsgParam)));
     }
 }

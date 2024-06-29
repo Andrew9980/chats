@@ -13,7 +13,9 @@ public enum ExceptionEnum {
     GROUP_NOT_EXIST("0009", "群不存在"),
     GROUP_CONTACT_ERROR("0010", "您已不在群聊，请加群后发送"),
     GROUP_ID_NOT_EMPTY("0011", "群id不能为空"),
-    GROUP_FULL("0012", "群人数已满");
+    GROUP_FULL("0012", "群人数已满"),
+    USER_APPLY_HANDLED("0013", "好友申请已处理");
+
     private String code;
 
     private String desc;

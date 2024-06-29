@@ -1,9 +1,11 @@
-package com.andrew.chats.vo;
+package com.andrew.chats.common.params;
 
 import lombok.Data;
 
 @Data
-public class UserInfoReqVO {
+public class UserInfoParam {
+
+    private String userId;
 
     private String email;
 

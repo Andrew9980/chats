@@ -1,4 +1,4 @@
-package com.andrew.chats.utils.util;
+package com.andrew.chats.common.utils;
 
 
 import org.springframework.beans.BeanUtils;

@@ -4,9 +4,9 @@ import com.andrew.chats.dao.model.GroupMember;
 import com.andrew.chats.dao.mapper.GroupMemberMapper;
 import com.andrew.chats.enums.GroupMemberStatusEnum;
 import com.andrew.chats.enums.MemberRoleEnum;
-import com.andrew.chats.utils.util.ObjUtils;
-import com.andrew.chats.vo.GroupMemberReqVO;
-import com.andrew.chats.vo.GroupMemberResVO;
+import com.andrew.chats.common.utils.ObjUtils;
+import com.andrew.chats.common.params.GroupMemberParam;
+import com.andrew.chats.common.vo.GroupMemberVO;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.collections4.CollectionUtils;
@@ -27,11 +27,11 @@ import java.util.List;
 @Service
 public class GroupMemberService extends ServiceImpl<GroupMemberMapper, GroupMember> {
 
-    public List<GroupMemberResVO> listMember(GroupMemberReqVO memberReqVO) {
+    public List<GroupMemberVO> listMember(GroupMemberParam memberReqVO) {
         List<GroupMember> list = list(Wrappers.<GroupMember>lambdaQuery()
                 .eq(StringUtils.isNotEmpty(memberReqVO.getGroupId()), GroupMember::getGroupId, memberReqVO.getGroupId())
                 .in(CollectionUtils.isNotEmpty(memberReqVO.getUserRoleList()), GroupMember::getUserRole, memberReqVO.getUserRoleList()));
-        return ObjUtils.copyList(list, GroupMemberResVO.class);
+        return ObjUtils.copyList(list, GroupMemberVO.class);
     }
 
     public boolean create(String groupId, String userId) {

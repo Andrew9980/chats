@@ -1,4 +1,4 @@
-package com.andrew.chats.utils;
+package com.andrew.chats.common;
 
 public class Constants {
 

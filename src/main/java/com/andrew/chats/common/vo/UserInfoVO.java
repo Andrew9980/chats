@@ -1,4 +1,4 @@
-package com.andrew.chats.vo;
+package com.andrew.chats.common.vo;
 
 import lombok.Data;
 

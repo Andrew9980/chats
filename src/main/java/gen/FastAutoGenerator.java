@@ -249,12 +249,13 @@ public class FastAutoGenerator {
                     builder.parent("com.andrew.chats")
                             .entity("dao.model")
                             .mapper("dao.mapper")
-                            .serviceImpl("dao.service")
+                            .mapper("service")
+                            .serviceImpl("service.impl")
                             .pathInfo(Collections.singletonMap(OutputFile.xml, "D:\\projects\\mine\\chats\\src\\main\\resources\\mapper"));
                 })
                 // 策略配置 用于addInclude：设置生成的表名称，如果多张表用逗号","分割开 addTablePrefix：设置过滤表前缀，如果表有固定的前缀，可以在这里设置
                 .strategyConfig((scanner, builder) -> {
-                    builder.addInclude("chat_group", "group_member")
+                    builder.addInclude("user_session_message")
                             .enableCapitalMode();
                 })
                 /*

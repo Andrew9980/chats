@@ -3,20 +3,19 @@ package com.andrew.chats.dao.model;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
  * <p>
- * 消息表
+ * 用户联系人消息表
  * </p>
  *
  * @author andrew
- * @since 2024-06-23
+ * @since 2024-06-28
  */
-@TableName("message")
-public class Message implements Serializable {
+@TableName("user_session_message")
+public class UserSessionMessage implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -24,14 +23,24 @@ public class Message implements Serializable {
     private Long id;
 
     /**
-     * 消息类型，0：好友申请，1：群申请 2：文字 3：图片 4：文件
+     * 发送者
      */
-    private Integer type;
+    private String senderId;
 
     /**
-     * 消息内容
+     * 接收者
      */
-    private String content;
+    private String receiveId;
+
+    /**
+     * 消息id
+     */
+    private Long messageId;
+
+    /**
+     * 1：未读 2：已读
+     */
+    private Integer status;
 
     private LocalDateTime createTime;
 
@@ -45,20 +54,36 @@ public class Message implements Serializable {
         this.id = id;
     }
 
-    public Integer getType() {
-        return type;
+    public String getSenderId() {
+        return senderId;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
+    public void setSenderId(String senderId) {
+        this.senderId = senderId;
     }
 
-    public String getContent() {
-        return content;
+    public String getReceiveId() {
+        return receiveId;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setReceiveId(String receiveId) {
+        this.receiveId = receiveId;
+    }
+
+    public Long getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(Long messageId) {
+        this.messageId = messageId;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public LocalDateTime getCreateTime() {
@@ -79,10 +104,12 @@ public class Message implements Serializable {
 
     @Override
     public String toString() {
-        return "Message{" +
+        return "UserSessionMessage{" +
             "id = " + id +
-            ", type = " + type +
-            ", content = " + content +
+            ", senderId = " + senderId +
+            ", receiveId = " + receiveId +
+            ", messageId = " + messageId +
+            ", status = " + status +
             ", createTime = " + createTime +
             ", updateTime = " + updateTime +
         "}";

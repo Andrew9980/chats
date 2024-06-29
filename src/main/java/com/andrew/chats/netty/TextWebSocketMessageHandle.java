@@ -4,10 +4,10 @@ import com.andrew.chats.config.ServiceException;
 import com.andrew.chats.dao.model.UserContact;
 import com.andrew.chats.service.UserContactService;
 import com.andrew.chats.enums.ExceptionEnum;
-import com.andrew.chats.utils.util.JSONUtil;
-import com.andrew.chats.utils.util.SecretUtil;
-import com.andrew.chats.vo.UserSendMsgReqVO;
-import com.andrew.chats.vo.base.RespResult;
+import com.andrew.chats.common.utils.JSONUtil;
+import com.andrew.chats.common.utils.SecretUtil;
+import com.andrew.chats.common.params.UserSendMsgParam;
+import com.andrew.chats.common.base.RespResult;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -69,16 +69,16 @@ public class TextWebSocketMessageHandle extends SimpleChannelInboundHandler<Text
         if (StringUtils.isEmpty(text.text())) {
             return;
         }
-        UserSendMsgReqVO userSendMsgReqVO = JSONUtil.parseJSON(text.text(), UserSendMsgReqVO.class);
-        if (userSendMsgReqVO != null) {
+        UserSendMsgParam userSendMsgParam = JSONUtil.parseJSON(text.text(), UserSendMsgParam.class);
+        if (userSendMsgParam != null) {
             RespResult<Boolean> respResult;
-            UserContact userContact = userContactService.getUserContact(userSendMsgReqVO.getSenderId(), userSendMsgReqVO.getReceiveId());
+            UserContact userContact = userContactService.getUserContact(userSendMsgParam.getSenderId(), userSendMsgParam.getReceiveId());
             if (Objects.equals(userContact.getStatus(), BLACK.getCode())) { // 好友拉黑
                 respResult = RespResult.fail(ExceptionEnum.USER_CONTACT_ERROR);
             } else if (Objects.equals(userContact.getStatus(), QUIT.getCode())) { // 不在群聊
                 respResult = RespResult.fail(ExceptionEnum.GROUP_CONTACT_ERROR);
             } else {
-                WebSocketContext.sendMsg(userSendMsgReqVO);
+                WebSocketContext.sendMsg(userSendMsgParam);
                 respResult = RespResult.success();
             }
             // 发送成功

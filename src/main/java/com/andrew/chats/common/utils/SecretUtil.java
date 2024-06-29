@@ -1,8 +1,8 @@
-package com.andrew.chats.utils.util;
+package com.andrew.chats.common.utils;
 
 import com.andrew.chats.config.ServiceException;
 import com.andrew.chats.enums.ExceptionEnum;
-import com.andrew.chats.utils.Constants;
+import com.andrew.chats.common.Constants;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -11,7 +11,6 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.DigestUtils;
 
-import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.UUID;

@@ -6,11 +6,11 @@ import com.andrew.chats.dao.mapper.ChatGroupMapper;
 import com.andrew.chats.enums.ExceptionEnum;
 import com.andrew.chats.enums.GroupStatusEnum;
 import com.andrew.chats.enums.GroupTypeEnum;
-import com.andrew.chats.utils.Constants;
-import com.andrew.chats.utils.util.ObjUtils;
-import com.andrew.chats.utils.util.ServiceUtil;
-import com.andrew.chats.vo.GroupApplyReqVO;
-import com.andrew.chats.vo.GroupReqVO;
+import com.andrew.chats.common.Constants;
+import com.andrew.chats.common.utils.ObjUtils;
+import com.andrew.chats.common.utils.ServiceUtil;
+import com.andrew.chats.common.params.GroupApplyParam;
+import com.andrew.chats.common.params.GroupParam;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +35,8 @@ public class ChatGroupService extends ServiceImpl<ChatGroupMapper, ChatGroup> {
     @Autowired
     private GroupMemberService groupMemberService;
 
-    public boolean create(GroupReqVO groupReqVO) {
-        ChatGroup chatGroup = ObjUtils.copy(groupReqVO, ChatGroup.class);
+    public boolean create(GroupParam groupParam) {
+        ChatGroup chatGroup = ObjUtils.copy(groupParam, ChatGroup.class);
         chatGroup.setGroupId(ServiceUtil.getRandomId());
         chatGroup.setCreateTime(LocalDateTime.now());
         chatGroup.setUpdateTime(LocalDateTime.now());
@@ -46,8 +46,8 @@ public class ChatGroupService extends ServiceImpl<ChatGroupMapper, ChatGroup> {
         return save(chatGroup);
     }
 
-    public boolean update(GroupReqVO groupReqVO) {
-        ChatGroup chatGroup = ObjUtils.copy(groupReqVO, ChatGroup.class);
+    public boolean update(GroupParam groupParam) {
+        ChatGroup chatGroup = ObjUtils.copy(groupParam, ChatGroup.class);
         chatGroup.setUpdateTime(LocalDateTime.now());
         return updateById(chatGroup);
     }
@@ -69,7 +69,7 @@ public class ChatGroupService extends ServiceImpl<ChatGroupMapper, ChatGroup> {
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
-    public synchronized boolean joinGroup(GroupApplyReqVO reqVO) {
+    public synchronized boolean joinGroup(GroupApplyParam reqVO) {
         ChatGroup chatGroup = getByGroupId(reqVO.getGroupId());
         if (chatGroup == null || Objects.equals(chatGroup.getStatus(), GroupStatusEnum.BANED.getCode())) {
             throw new ServiceException(ExceptionEnum.GROUP_NOT_EXIST);

@@ -2,10 +2,9 @@ package com.andrew.chats.controller;
 
 import com.andrew.chats.enums.ExceptionEnum;
 import com.andrew.chats.service.ChatGroupService;
-import com.andrew.chats.vo.GroupApplyReqVO;
-import com.andrew.chats.vo.GroupMemberReqVO;
-import com.andrew.chats.vo.GroupReqVO;
-import com.andrew.chats.vo.base.RespResult;
+import com.andrew.chats.common.params.GroupApplyParam;
+import com.andrew.chats.common.params.GroupParam;
+import com.andrew.chats.common.base.RespResult;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,12 +29,12 @@ public class ChatGroupController {
     private ChatGroupService chatGroupService;
 
     @PostMapping("/create")
-    public RespResult<Boolean> create(@RequestBody GroupReqVO reqVO) {
+    public RespResult<Boolean> create(@RequestBody GroupParam reqVO) {
         return RespResult.success(chatGroupService.create(reqVO));
     }
 
     @GetMapping("/update")
-    public RespResult<Boolean> update(@RequestBody GroupReqVO reqVO) {
+    public RespResult<Boolean> update(@RequestBody GroupParam reqVO) {
         if (StringUtils.isEmpty(reqVO.getGroupId())) {
             return RespResult.fail(ExceptionEnum.GROUP_ID_NOT_EMPTY);
         }
@@ -43,7 +42,7 @@ public class ChatGroupController {
     }
 
     @GetMapping("/joinGroup")
-    public RespResult<Boolean> joinGroup(@RequestBody GroupApplyReqVO reqVO) {
+    public RespResult<Boolean> joinGroup(@RequestBody GroupApplyParam reqVO) {
         return RespResult.success(chatGroupService.joinGroup(reqVO));
     }
 

@@ -1,11 +1,10 @@
 package com.andrew.chats.controller;
 
 import com.andrew.chats.service.MessageService;
-import com.andrew.chats.vo.MessageReqVO;
-import com.andrew.chats.vo.MessageResVO;
-import com.andrew.chats.vo.base.RespResult;
+import com.andrew.chats.common.params.MessageParam;
+import com.andrew.chats.common.vo.MessageVO;
+import com.andrew.chats.common.base.RespResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,8 +28,8 @@ public class MessageController {
     private MessageService messageService;
 
     @PostMapping("/list")
-    public RespResult<List<MessageResVO>> list(@RequestBody MessageReqVO messageReqVO) {
-        return RespResult.success(messageService.listMessage(messageReqVO));
+    public RespResult<List<MessageVO>> list(@RequestBody MessageParam messageParam) {
+        return null;
     }
 
 }

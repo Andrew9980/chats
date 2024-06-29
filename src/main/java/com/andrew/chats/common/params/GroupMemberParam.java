@@ -1,11 +1,11 @@
-package com.andrew.chats.vo;
+package com.andrew.chats.common.params;
 
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class GroupMemberReqVO {
+public class GroupMemberParam {
 
     private String groupId;
 

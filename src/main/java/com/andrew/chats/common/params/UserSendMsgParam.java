@@ -1,9 +1,14 @@
-package com.andrew.chats.vo;
+package com.andrew.chats.common.params;
 
 import lombok.Data;
 
 @Data
-public class UserSendMsgReqVO {
+public class UserSendMsgParam {
+
+    /**
+     * 消息id
+     */
+    private Long messageId;
 
     /**
      * 发送人
@@ -17,7 +22,7 @@ public class UserSendMsgReqVO {
 
     /**
      * 消息类型
-     * {@link com.andrew.chats.enums.MessageTypeEnum}
+     * {@link com.andrew.chats.enums.WSSendMessageTypeEnum}
      */
     private Integer type;
 

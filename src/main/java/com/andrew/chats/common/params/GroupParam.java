@@ -1,9 +1,9 @@
-package com.andrew.chats.vo;
+package com.andrew.chats.common.params;
 
 import lombok.Data;
 
 @Data
-public class GroupReqVO {
+public class GroupParam {
 
     /**
      * 群id

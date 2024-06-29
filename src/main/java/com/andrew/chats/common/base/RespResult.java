@@ -1,4 +1,4 @@
-package com.andrew.chats.vo.base;
+package com.andrew.chats.common.base;
 
 import com.andrew.chats.enums.ExceptionEnum;
 import lombok.Builder;

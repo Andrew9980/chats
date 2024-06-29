@@ -5,15 +5,13 @@ import com.andrew.chats.dao.model.UserInfo;
 import com.andrew.chats.dao.mapper.UserInfoMapper;
 import com.andrew.chats.enums.ExceptionEnum;
 import com.andrew.chats.enums.UserStatusEnum;
-import com.andrew.chats.utils.util.ObjUtils;
-import com.andrew.chats.utils.util.SecretUtil;
-import com.andrew.chats.utils.util.ServiceUtil;
-import com.andrew.chats.vo.UserInfoReqVO;
-import com.andrew.chats.vo.UserInfoVO;
+import com.andrew.chats.common.utils.ObjUtils;
+import com.andrew.chats.common.utils.SecretUtil;
+import com.andrew.chats.common.utils.ServiceUtil;
+import com.andrew.chats.common.params.UserInfoParam;
+import com.andrew.chats.common.vo.UserInfoVO;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -35,7 +33,7 @@ public class UserInfoService extends ServiceImpl<UserInfoMapper, UserInfo> {
         return ObjUtils.copy(userInfo, UserInfoVO.class);
     }
 
-    public Boolean register(UserInfoReqVO vo) {
+    public Boolean register(UserInfoParam vo) {
         String salt = SecretUtil.getSalt();
         UserInfo userInfo = new UserInfo();
         String userId = ServiceUtil.getRandomId();
@@ -50,7 +48,7 @@ public class UserInfoService extends ServiceImpl<UserInfoMapper, UserInfo> {
         return save(userInfo);
     }
 
-    public String login(UserInfoReqVO vo) {
+    public String login(UserInfoParam vo) {
         UserInfo userInfo = getOne(Wrappers.<UserInfo>lambdaQuery().eq(UserInfo::getEmail, vo.getEmail()));
         if (Objects.isNull(userInfo)) {
             throw new ServiceException(ExceptionEnum.USER_NOT_EXIST);

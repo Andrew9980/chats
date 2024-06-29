@@ -1,9 +1,9 @@
-package com.andrew.chats.vo;
+package com.andrew.chats.common.vo;
 
 import lombok.Data;
 
 @Data
-public class MessageResVO {
+public class MessageVO {
 
     private String senderId;
 
