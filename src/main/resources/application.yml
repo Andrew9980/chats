@@ -6,10 +6,10 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: root
-    url: jdbc:mysql://127.0.0.1:3306/chats?characterEncoding=utf8
+    url: jdbc:mysql://192.168.1.13:3306/chats?characterEncoding=utf8
   data:
     redis:
-      host: 127.0.0.1
+      host: 192.168.1.13
       password: 1234
 
 # websocket 服务端口

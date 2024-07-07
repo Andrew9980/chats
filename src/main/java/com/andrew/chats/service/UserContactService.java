@@ -124,6 +124,7 @@ public class UserContactService extends ServiceImpl<UserContactMapper, UserConta
             if (messageId == null) {
                 return false;
             }
+            // 创建消息记录
             boolean result = userSessionMessageService.save(userContactParam.getUserId(), userContactParam.getContactId(), messageId);
             if (!result) {
                 return false;
@@ -137,16 +138,28 @@ public class UserContactService extends ServiceImpl<UserContactMapper, UserConta
             WebSocketContext.sendMsg(userSendMsgParam);
         } else {
             // 发送群申请消息，将申请消息发送到群主和群管理员
-//            GroupMemberParam groupMemberParam = new GroupMemberParam();
-//            groupMemberParam.setGroupId(userContactParam.getContactId());
-//            groupMemberParam.setUserRoleList(Arrays.asList(MemberRoleEnum.OWNER.getCode(), MemberRoleEnum.MANAGER.getCode()));
-//            List<GroupMemberVO> groupMemberVOS = groupMemberService.listMember(groupMemberParam);
-//            List<String> userIds = groupMemberVOS.stream().map(GroupMemberVO::getUserId).collect(Collectors.toList());
-//            messageService.saveGroupApply(userIds, userContactParam);
-//            userIds.forEach(userId -> {
-//                userSendMsgReqVO.setReceiveId(userId);
-//                WebSocketContext.sendMsg(userSendMsgReqVO);
-//            });
+            Long messageId = messageService.save(MessageTypeEnum.GROUP_APPLY.getCode(), userContactParam.getOpinion());
+            if (messageId == null) {
+                return false;
+            }
+            // 查询群主和群管理员，发送加群申请消息
+            GroupMemberParam groupMemberParam = new GroupMemberParam();
+            groupMemberParam.setGroupId(userContactParam.getContactId());
+            groupMemberParam.setUserRoleList(Arrays.asList(MemberRoleEnum.OWNER.getCode(), MemberRoleEnum.MANAGER.getCode()));
+            List<GroupMemberVO> groupMemberVOS = groupMemberService.listMember(groupMemberParam);
+            List<String> userIds = groupMemberVOS.stream().map(GroupMemberVO::getUserId).collect(Collectors.toList());
+            boolean save = userSessionMessageService.batchSave(userContactParam.getUserId(), userIds, messageId);
+            if (!save) {
+                return false;
+            }
+
+            userIds.forEach(userId -> {
+                UserSendMsgParam userSendMsgParam = new UserSendMsgParam();
+                userSendMsgParam.setSenderId(userContactParam.getUserId());
+                userSendMsgParam.setReceiveId(userId);
+                userSendMsgParam.setType(WSSendMessageTypeEnum.GROUP_APPLY.getCode());
+                WebSocketContext.sendMsg(userSendMsgParam);
+            });
         }
         return true;
     }
