@@ -28,7 +28,11 @@ public class GroupMemberController {
     @Autowired
     private GroupMemberService groupMemberService;
 
-
+    /**
+     * 查询群成员
+     * @param reqVO
+     * @return
+     */
     @GetMapping("/list")
     public RespResult<List<GroupMemberVO>> listMember(GroupMemberParam reqVO) {
         if (StringUtils.isNotEmpty(reqVO.getGroupId())) {
@@ -36,5 +40,7 @@ public class GroupMemberController {
         }
         return RespResult.success(groupMemberService.listMember(reqVO));
     }
+
+
 
 }

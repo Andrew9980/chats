@@ -35,7 +35,6 @@ public class MessageService extends ServiceImpl<MessageMapper, Message> {
     /**
      * 批量保存群申请消息
      * @param userIds
-     * @param UserContactReqVO
      * @return
      */
     @Transactional(rollbackFor = Exception.class)

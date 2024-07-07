@@ -6,8 +6,11 @@ import com.andrew.chats.enums.MessageStatusEnum;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -29,6 +32,22 @@ public class UserSessionMessageService extends ServiceImpl<UserSessionMessageMap
         sessionMessage.setCreateTime(LocalDateTime.now());
         sessionMessage.setUpdateTime(LocalDateTime.now());
         return save(sessionMessage);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public boolean batchSave(String senderId, List<String> receiveIds, Long messageId) {
+        List<UserSessionMessage> list = new ArrayList<>();
+        for (String receiveId : receiveIds) {
+            UserSessionMessage sessionMessage = new UserSessionMessage();
+            sessionMessage.setSenderId(senderId);
+            sessionMessage.setReceiveId(receiveId);
+            sessionMessage.setMessageId(messageId);
+            sessionMessage.setStatus(MessageStatusEnum.UN_READ.getCode());
+            sessionMessage.setCreateTime(LocalDateTime.now());
+            sessionMessage.setUpdateTime(LocalDateTime.now());
+            list.add(sessionMessage);
+        }
+        return saveBatch(list);
     }
 
 }
