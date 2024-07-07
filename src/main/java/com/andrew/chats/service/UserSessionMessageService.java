@@ -1,13 +1,19 @@
 package com.andrew.chats.service;
 
+import com.andrew.chats.common.utils.ObjUtils;
+import com.andrew.chats.common.vo.UserSessionMessageVO;
 import com.andrew.chats.dao.model.UserSessionMessage;
 import com.andrew.chats.dao.mapper.UserSessionMessageMapper;
 import com.andrew.chats.enums.MessageStatusEnum;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * <p>
@@ -29,6 +35,14 @@ public class UserSessionMessageService extends ServiceImpl<UserSessionMessageMap
         sessionMessage.setCreateTime(LocalDateTime.now());
         sessionMessage.setUpdateTime(LocalDateTime.now());
         return save(sessionMessage);
+    }
+
+    public List<UserSessionMessageVO> list(String userId) {
+        List<UserSessionMessage> list = list(Wrappers.<UserSessionMessage>lambdaQuery().eq(UserSessionMessage::getSenderId, userId));
+        if (CollectionUtils.isEmpty(list)) {
+            return Collections.emptyList();
+        }
+        return ObjUtils.copyList(list, UserSessionMessageVO.class);
     }
 
 }
