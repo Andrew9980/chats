@@ -15,6 +15,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -31,6 +32,11 @@ public class UserInfoService extends ServiceImpl<UserInfoMapper, UserInfo> {
     public UserInfoVO getByUserId(String userId) {
         UserInfo userInfo = getOne(Wrappers.<UserInfo>lambdaQuery().eq(UserInfo::getUserId, userId));
         return ObjUtils.copy(userInfo, UserInfoVO.class);
+    }
+
+    public List<UserInfoVO> getByUserIds(List<String> userIds) {
+        List<UserInfo> list = list(Wrappers.<UserInfo>lambdaQuery().in(UserInfo::getUserId, userIds));
+        return ObjUtils.copyList(list, UserInfoVO.class);
     }
 
     public Boolean register(UserInfoParam vo) {

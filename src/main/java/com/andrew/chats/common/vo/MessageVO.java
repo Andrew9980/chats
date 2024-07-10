@@ -11,4 +11,6 @@ public class MessageVO {
 
     private String content;
 
+    private String sendTime;
+
 }

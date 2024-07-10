@@ -32,9 +32,14 @@ public class UserSessionMessageController {
     @Autowired
     private UserSessionMessageService userSessionMessageService;
 
-    @GetMapping("/list")
-    public RespResult<List<UserSessionMessageVO>> list(String userId) {
-        return RespResult.success(userSessionMessageService.list(userId));
+    /**
+     * 聊天记录
+     * @param userSessionMessageVO
+     * @return
+     */
+    @GetMapping("/getSessionMessage")
+    public RespResult<List<UserSessionMessageVO>> getSessionMessage(UserSessionMessageVO userSessionMessageVO) {
+        return RespResult.success(userSessionMessageService.getSessionMessage(userSessionMessageVO));
     }
 
 }

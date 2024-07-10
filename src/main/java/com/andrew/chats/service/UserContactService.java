@@ -3,7 +3,9 @@ package com.andrew.chats.service;
 import com.andrew.chats.common.params.GroupMemberParam;
 import com.andrew.chats.common.params.UserContactParam;
 import com.andrew.chats.common.params.UserSendMsgParam;
+import com.andrew.chats.common.utils.ObjUtils;
 import com.andrew.chats.common.vo.GroupMemberVO;
+import com.andrew.chats.common.vo.UserContactVO;
 import com.andrew.chats.common.vo.UserInfoVO;
 import com.andrew.chats.config.ServiceException;
 import com.andrew.chats.dao.mapper.UserContactMapper;
@@ -12,17 +14,18 @@ import com.andrew.chats.dao.model.UserContact;
 import com.andrew.chats.dao.model.UserSessionMessage;
 import com.andrew.chats.enums.*;
 import com.andrew.chats.netty.WebSocketContext;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -89,7 +92,7 @@ public class UserContactService extends ServiceImpl<UserContactMapper, UserConta
     public boolean apply(UserContactParam userContactParam) {
         UserInfoVO userInfo;
         ChatGroup chatGroup;
-        if (Objects.equals(userContactParam.getType(), UserContactEnum.USER.getCode())) { // 加人
+        if (Objects.equals(userContactParam.getType(), UserContactEnum.FRIEND.getCode())) { // 加人
             userInfo = userInfoService.getByUserId(userContactParam.getContactId());
             if (Objects.isNull(userInfo) || Objects.equals(userInfo.getStatus(), UserStatusEnum.BANED.getCode())) {
                 throw new ServiceException(ExceptionEnum.USER_NOT_EXIST);
@@ -118,7 +121,7 @@ public class UserContactService extends ServiceImpl<UserContactMapper, UserConta
         userContact.setUpdateTime(LocalDateTime.now());
         save(userContact);
 
-        if (Objects.equals(userContactParam.getType(), UserContactEnum.USER.getCode())) {
+        if (Objects.equals(userContactParam.getType(), UserContactEnum.FRIEND.getCode())) {
             // 消息保存
             Long messageId = messageService.save(MessageTypeEnum.FRIEND_APPLY.getCode(), userContactParam.getOpinion());
             if (messageId == null) {
@@ -182,7 +185,7 @@ public class UserContactService extends ServiceImpl<UserContactMapper, UserConta
         UserContact userContact = new UserContact();
         userContact.setUserId(userContactParam.getUserId());
         userContact.setContactId(userContactParam.getContactId());
-        userContact.setType(UserContactEnum.USER.getCode());
+        userContact.setType(UserContactEnum.FRIEND.getCode());
         userContact.setStatus(UserContactStatusEnum.VALID.getCode());
         userContact.setLastContractTime(LocalDateTime.now());
         userContact.setCreateTime(LocalDateTime.now());
@@ -201,5 +204,38 @@ public class UserContactService extends ServiceImpl<UserContactMapper, UserConta
         userSendMsgParam.setType(WSSendMessageTypeEnum.FRIEND_APPLY_SUCCESS.getCode());
         WebSocketContext.sendMsg(userSendMsgParam);
         return true;
+    }
+
+    /**
+     * 最近60天的联系人
+     * @param userId
+     * @return
+     */
+    public List<UserContactVO> recentContact(String userId) {
+        LocalDateTime now = LocalDateTime.now();
+        LambdaQueryWrapper<UserContact> queryWrapper = Wrappers.<UserContact>lambdaQuery()
+                .eq(UserContact::getUserId, userId)
+                .between(UserContact::getLastContractTime, now.minusDays(60), now);
+        List<UserContact> userContacts = list(queryWrapper);
+        if (CollectionUtils.isEmpty(userContacts)) {
+            return Collections.emptyList();
+        }
+        // 好友信息
+        List<String> friendIds = userContacts.stream()
+                .filter(e -> Objects.equals(e.getType(), UserContactEnum.FRIEND.getCode()))
+                .map(UserContact::getContactId)
+                .toList();
+        List<UserInfoVO> friendList = userInfoService.getByUserIds(friendIds);
+        Map<String, UserInfoVO> friendMap = friendList.stream().collect(Collectors.toMap(UserInfoVO::getUserId, Function.identity()));
+
+        //todo 群信息
+        List<UserContactVO> userContactVOS = ObjUtils.copyList(userContacts, UserContactVO.class);
+        for (UserContact userContact : userContacts) {
+            UserInfoVO friend = friendMap.get(userContact.getContactId());
+            UserContactVO userContactVO = ObjUtils.copy(userContact, UserContactVO.class);
+            userContactVO.setContactName(friend.getNickName());
+            userContactVOS.add(userContactVO);
+        }
+        return userContactVOS;
     }
 }

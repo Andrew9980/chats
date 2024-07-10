@@ -1,10 +1,13 @@
 package com.andrew.chats.controller;
 
+import com.andrew.chats.common.vo.UserContactVO;
 import com.andrew.chats.service.UserContactService;
 import com.andrew.chats.common.params.UserContactParam;
 import com.andrew.chats.common.base.RespResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -37,6 +40,14 @@ public class UserContactController {
     @PostMapping("/accept")
     public RespResult<Boolean> accept(@RequestBody UserContactParam userContactParam) {
         return RespResult.success(userContactService.accept(userContactParam));
+    }
+
+    /**
+     * 查询最近联系人
+     */
+    @GetMapping("/recentContact/{userId}")
+    public RespResult<List<UserContactVO>> recentContact(@PathVariable("userId") String userId) {
+        return RespResult.success(userContactService.recentContact(userId));
     }
 
 }

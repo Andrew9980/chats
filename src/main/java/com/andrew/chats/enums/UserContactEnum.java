@@ -1,9 +1,12 @@
 package com.andrew.chats.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum UserContactEnum {
 
     ROBOT(0, "机器人"),
-    USER(1, "好友"),
+    FRIEND(1, "好友"),
     GROUP(2, "群");
 
     private Integer code;
@@ -15,11 +18,4 @@ public enum UserContactEnum {
         this.desc = desc;
     }
 
-    public Integer getCode() {
-        return code;
-    }
-
-    public String getDesc() {
-        return desc;
-    }
 }

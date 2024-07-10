@@ -8,9 +8,18 @@ import java.time.LocalDateTime;
 public class UserSessionMessageVO {
 
     /**
+     * 会话消息id
+     */
+    private Long id;
+
+    /**
      * 发送者
      */
     private String senderId;
+
+    private String senderAvatar;
+
+    private String senderName;
 
     /**
      * 接收者
@@ -18,9 +27,9 @@ public class UserSessionMessageVO {
     private String receiveId;
 
     /**
-     * 消息id
+     * 消息内容
      */
-    private Long messageId;
+    private String content;
 
     /**
      * 1：未读 2：已读
