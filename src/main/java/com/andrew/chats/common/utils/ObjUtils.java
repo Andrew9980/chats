@@ -11,7 +11,7 @@ public class ObjUtils {
     public static <T> T copy(Object sourceData, Class<T> clazz) {
         try {
             T t = clazz.getDeclaredConstructor().newInstance();
-            BeanUtils.copyProperties(t, sourceData);
+            BeanUtils.copyProperties(sourceData, t);
             return t;
         } catch (Exception e) {
             throw new RuntimeException("复制对象失败" + e.getMessage());

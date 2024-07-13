@@ -17,3 +17,7 @@ ws-port: 8060
 server:
   servlet:
     context-path: /chats
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true

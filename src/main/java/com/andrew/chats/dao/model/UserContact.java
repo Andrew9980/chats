@@ -3,6 +3,9 @@ package com.andrew.chats.dao.model;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+import lombok.Getter;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -14,6 +17,7 @@ import java.time.LocalDateTime;
  * @author andrew
  * @since 2024-06-23
  */
+@Data
 @TableName("user_contact")
 public class UserContact implements Serializable {
 
@@ -60,86 +64,6 @@ public class UserContact implements Serializable {
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getContactId() {
-        return contactId;
-    }
-
-    public void setContactId(String contactId) {
-        this.contactId = contactId;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public Integer getUnreadCount() {
-        return unreadCount;
-    }
-
-    public void setUnreadCount(Integer unreadCount) {
-        this.unreadCount = unreadCount;
-    }
-
-    public LocalDateTime getLastContractTime() {
-        return lastContractTime;
-    }
-
-    public void setLastContractTime(LocalDateTime lastContractTime) {
-        this.lastContractTime = lastContractTime;
-    }
-
-    public LocalDateTime getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(LocalDateTime createTime) {
-        this.createTime = createTime;
-    }
-
-    public LocalDateTime getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(LocalDateTime updateTime) {
-        this.updateTime = updateTime;
-    }
 
     @Override
     public String toString() {

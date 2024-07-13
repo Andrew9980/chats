@@ -229,7 +229,7 @@ public class UserContactService extends ServiceImpl<UserContactMapper, UserConta
         Map<String, UserInfoVO> friendMap = friendList.stream().collect(Collectors.toMap(UserInfoVO::getUserId, Function.identity()));
 
         //todo 群信息
-        List<UserContactVO> userContactVOS = ObjUtils.copyList(userContacts, UserContactVO.class);
+        List<UserContactVO> userContactVOS = new ArrayList<>(userContacts.size());
         for (UserContact userContact : userContacts) {
             UserInfoVO friend = friendMap.get(userContact.getContactId());
             UserContactVO userContactVO = ObjUtils.copy(userContact, UserContactVO.class);
